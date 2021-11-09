@@ -55,7 +55,7 @@ noClientException :
 
 script
 si on tape un chiffre entre 0 et 5 une action est possible 
-le 0 ets pour la deconnexion
+le 0 est pour la deconnexion
 le 1 est pour l'ajout d'une tache 
 	suite au 1 on doit entrée la ligne correspondant au nom de la tache et on a la possibilité de dire qu'on veux une date ou non en entrant 1 ou 0 puis les numeros de la date si on en veux une.
 le 2 est pour rendre prioritaire une tache 
@@ -65,4 +65,69 @@ le 4 est pour voir une tache
 	on doit entré le numéro de la tache qu'on souhaite voir
 le 5 est pour supprimer une tache
 	on doit entré le numéro de la tache à supprimé
-ça boucle pour retourner au choix de l'action 
+ça boucle pour retourner au choix de l'action
+
+Le fichier test est un simple fichier que l'on envoie dans le client, il éxécute les actions suivantes:
+	-Envoie de : ["Jean"] -- Retourne : ["Error ! Not and integer"]
+	-Envoie de : [7] -- Retourne : ["Unidentified action"]
+
+Test différents cas :
+Cas : Si 0 tache dans le client:
+	-Ajout d'une tache sans date : [1 "Premiere Tache" 0] -- Retourne : "Task N°0 add succefully!"
+	-supprime une tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+	-ajout d'une tache avec date : [1 "Seconde Tache" 1 01 01 1997] -- Retourne : "Task N°0 add succefully!"
+	-ajout d'une tache avec choix de date erronée : [1 "Seconde Tache" 28] -- Retourne : "Do you want an ending date ? (1=yes, 0=no)" (Cela répète la phrase a l'infini)
+		-- avec date erronnée : [1 oui] -- Retourne "Error ! Not an integer" (et reaffiche une demande de la date)
+		-- avec date correct : [01 01 1997] -- Retourne : "Task N°1 add succefully!"
+	-supprime une tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+	-supprime une tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+	-supprime une tache : [5 0] -- Retourne : "the task id is invalid !"
+	-rendre prioritairte une tache : [2 0] -- Retourne : "Priority of task : 0 changed successfully !"
+	-cb de tache : [3] -- Retourne : "There is 0 task to do in your todo List"
+	-voir une tache : [4 0] -- Retourne : "The task that you selected does not exist"
+
+cas : 1 tache:
+	-ajout d'une tache sans date : [1 "Premiere Tache" 0] -- Retourne : "Task N°0 add succefully!"
+	-ajout d'une tache sans date : [1 Deuxieme Tache" 0] -- Retourne : "Task N°1 add succefully!"
+	-supprimer un tache : [5 0] -- Retourne : ["Task : 0 deleted successfully !"
+	-ajout d'une tache avec date : [1 "Deuxieme Tache bis " 1 01 01 1889] -- Retourne : "Task N°1 add succefully!"
+	-supprimer un tache : [5 1] -- Retourne : "Task : 1 deleted successfully !"
+	-voir une tache : [4 0] -- Retourne : "Task: {name='Deuxieme Tache'}"
+	-ajout d'une tache sans date : [1 "Tierse personne" 0] -- Retourne : "Task N°1 add succefully!"
+	-rendre prioritairte une tache : [2 1] -- Retourne : "Priority of task : 1 changed successfully !"
+	-voir une tache : [4 0] -- Retourne : "Task: {name='Tierse personne}"
+	-cb de tache : [3] -- Retourne : "There is 2 task to do in your todo List"
+	-supprimer une tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+	-cb de tache : [3] -- Retourne : "There is 1 task to do in your todo List"
+	-voir une tache : [4 0] -- Retourne : "Task: {name='Deuxieme Tache}"
+	-voir une tache : [4 1] -- Retourne : "The task that you selected does not exist"
+	-supprimer une tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+
+cas : 2+ taches:
+	-ajout d'une tache sans date : [1 "Premiere Tache" 0] -- Retourne : "Task N°0 add succefully!"
+	-ajout d'une tache avec date : [1 "Deuxieme Tache" 1 12 12 1997] -- Retourne : "Task N°1 add succefully!"
+	-ajout d'une tache sans date : [1 "Troisieme Tache" 0] -- Retourne : "Task N°2 add succefully!"
+	-ajout d'une tache sans date : [1 "Quatrieme Tache" 0] -- Retourne : "Task N°3 add succefully!"
+	-ajout d'une tache sans date : [1 "Cinquième Tache" 0] -- Retourne : "Task N°4 add succefully!"
+	-ajout d'une tache sans date : [1 "Sixieme Tache" 0] -- Retourne : "Task N°5 add succefully!"
+	-ajout d'une tache sans date : [1 "Septième Tache" 0] -- Retourne : "Task N°6 add succefully!"
+	-ajout d'une tache sans date : [1 "Huitième Tache" 0] -- Retourne : "Task N°7 add succefully!"
+	-ajout d'une tache sans date : [1 "9eme Tache" 0] -- Retourne : "Task N°8 add succefully!"
+	-ajout d'une tache sans date : [1 "Dixième Tache" 0] -- Retourne : "Task N°9 add succefully!"
+	-ajout d'une tache sans date : [1 "11ONZIEME Tache" 0] -- Retourne : "Task N°10 add succefully!"
+	-supprimer un tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+	-ajout d'une tache avec date : [1 " Tache" 1 22 10 1997] -- Retourne : "Task N°10 add succefully!"
+	-supprimer un tache : [5 0] -- Retourne : "Task : 0 deleted successfully !"
+	-voir une tache : [4 0] -- Retourne : "Task: {name='Troisieme Tache'}"
+	-rendre prioritairte une tache : [2 9] (la derniere, la 10) -- Retourne : "Priority of task : 10 changed successfully !"
+	-voir une tache : [4 0] -- Retourne : "Task: {name='Tache', dead line='10/1997/22'}"
+	-rendre prioritairte une tache : [2 9] (la derniere a nouveau) -- Retourne : "Priority of task : 10 changed successfully !"
+	-voir une tache : [4 0] -- Retourne : "Task: {name='11ONZIEME Tache'}"
+	-cb de tache : [3] -- Retourne : "There is 10 task to do in your todo List"
+	-voir une tache : [4 10] -- Retourne : "The task that you selected does not exist"
+	-voir une tache : [4 11] -- Retourne : "The task that you selected does not exist"
+	-voir une tache : [4 9] -- Retourne : "Task: {name='Tache', dead line='10/1997/22'}"
+	-supprimer une tache : [5 10] -- Retourne : "the task id is invalid !"
+	-supprimer une tache : [5 9] -- Retourne : "Task : 9 deleted successfully !"
+	-cb de tache : [3] -- Retourne : "There is 9 task to do in your todo List"
+-déco : [0] -- Retourne : "BYE"

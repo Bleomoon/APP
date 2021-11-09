@@ -1,0 +1,136 @@
+Jean
+7
+1
+Premiere Tache
+0
+5
+0
+1
+Seconde Tache
+1
+01
+01
+1997
+1
+Seconde Tache
+28
+1
+oui
+01
+01
+1997
+5
+0
+5
+0
+5
+0
+2
+0
+3
+4
+0
+1
+Premiere Tache
+0
+1
+Deuxieme Tache
+0
+5
+0
+1
+Deuxieme Tache bis
+1
+01
+01
+1889
+5
+1
+4
+0
+1
+Tierse personne
+0
+2
+1
+4
+0
+3
+5
+0
+3
+4
+0
+4
+1
+5
+0
+1
+Premiere Tache
+0
+1
+Deuxieme Tache
+1
+12
+12
+1997
+1
+Troisieme Tache
+0
+1
+Quatrieme Tache
+0
+1
+Cinquième Tache
+0
+1
+Sixieme Tache
+0
+1
+Septième Tache
+0
+1
+Huitième Tache
+0
+1
+9eme Tache
+0
+1
+Dixième Tache
+0
+1
+11ONZIEME Tache
+0
+5
+0
+1
+Tache
+1
+22
+10
+1997
+5
+0
+4
+0
+2
+9
+4
+0
+2
+9
+4
+0
+3
+4
+10
+4
+11
+4
+9
+5
+10
+5
+9
+3
+0

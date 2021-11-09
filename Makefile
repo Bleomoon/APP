@@ -1,4 +1,6 @@
 HOSTNAME = localhost
+FILE = tests.txt
+
 default: build
 
 build:
@@ -8,6 +10,10 @@ build:
 client:
 	@echo launching client1, hostname = ${HOSTNAME}
 	java src.Client "${HOSTNAME}"
+
+clientF:
+	@echo launching client1, hostname = ${HOSTNAME}, file = ${FILE}
+	java src.Client "${HOSTNAME}" "${FILE}"
 
 server:
 	@echo launching server...
