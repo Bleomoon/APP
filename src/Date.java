@@ -18,6 +18,6 @@ public class Date implements Serializable {
     @Override
     public String toString()
     {
-        return day + " " + month + " " + year;
+        return day + "/" + month + "/" + year;
     }
 }  

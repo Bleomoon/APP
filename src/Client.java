@@ -3,7 +3,8 @@ package src;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Scanner;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Client {
 
@@ -47,31 +48,54 @@ public class Client {
             objdist = (ManageDist) Naming.lookup(url);
             id = objdist.connect();
             if (id != -1) {
-                Scanner scanner = new Scanner(System.in);
-                boolean end = false;
+				Scanner scanner = null;
+				boolean end = false;
 				Date date;
-				int idTask, adding, isDate= -1;
+				int choice, idTask, adding, isDate= -1;
 				Status myStatus;
+				
+				if(args.length > 1)
+				{
+					try {
+						File file = new File(args[1]);
+						scanner = new Scanner(file);
+					}
+					catch(Exception e)
+					{
+						System.out.println("Could not read the file");
+						end = true;
+					}
+				}
+				else
+					scanner = new Scanner(System.in);
+               
                 while (!end) {
 					//initialise data, ask the choice and start the switch
 					myStatus = null;
 					date = null;
-                    System.out.println("What do you want to do ? :\n" +
-                            "1 : add a task\n" +
-                            "2 : changing priority of a task\n" +
-                            "3 : knowing how much task still need to be done\n" +
-                            "4 : see a task\n" +
-                            "5 : delete a task\n" +
-                            "0 : deconnexion\n"
-                    );
+					do {
+						System.out.println("What do you want to do ? :\n" +
+								"1 : add a task\n" +
+								"2 : changing priority of a task\n" +
+								"3 : knowing how much task still need to be done\n" +
+								"4 : see a task\n" +
+								"5 : delete a task\n" +
+								"0 : deconnexion\n"
+						);
+						
+						choice = askInt(scanner);
+					}while(choice == -1);
 					
-                    int choice = askInt(scanner);
                     switch (choice){
                         case 0 : //client disconnect
                             myStatus = objdist.close(id);
 							if(myStatus == Status.success)
+							{
+								System.out.println("BYE!");
 								end = true;
-							System.out.println(myStatus);
+							}
+							else
+								System.out.println(myStatus);
                             break;
                         case 1 : //client add a task
                             System.out.println("Give it a name!");
@@ -83,9 +107,7 @@ public class Client {
 							
                             if (isDate == 1)
 								date = askDate(scanner);
-							System.out.println("JE SUIS PASSE PAR LA");
                             adding = objdist.add(name, date, id);
-							System.out.println("JE SUIS PASSE PAR LA");
 							if(adding == -1)
 								System.out.println("Error in adding the new task");
 							else
@@ -110,7 +132,11 @@ public class Client {
 								System.out.println("Which task do you want to see ?");
 								idTask = askInt(scanner);
                             }while(idTask == -1);
-							System.out.println(objdist.getTask(idTask, id).toString());
+							Task t = objdist.getTask(idTask, id);
+							if(t != null)
+								System.out.println(t);
+							else
+								System.out.println("The task that you selected does not exist");
                             break;
                         case 5 : //client ask which one to delete
                             do {

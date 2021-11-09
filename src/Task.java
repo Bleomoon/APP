@@ -1,8 +1,11 @@
 package src;
 
-public class Task {
+import java.io.Serializable;
+
+public class Task implements Serializable {
     private final String name;
     private final Date dead_line;
+	private static final long serialVersionUID = 1L;
 
     public Task(String name, Date deadLine){
         this.name = name;
@@ -24,9 +27,13 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "name='" + this.name + '\'' +
-                ", dead line=" + this.dead_line.toString() +
-                '}';
+		if(this.getDeadLine() != null)
+		{
+			return "Task: {name='" + this.name + "', dead line='" + this.dead_line + "'}";
+		}
+		else
+		{
+			return "Task: {name='" + this.name + "'}";
+		}
     }
 }

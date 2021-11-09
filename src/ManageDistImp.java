@@ -58,9 +58,9 @@ public class ManageDistImp extends UnicastRemoteObject implements ManageDist
     public int add(String task_name, Date date, int id_client)
     {
         if (date == null)
-            System.out.println("Client " + id_client + " try to add task " + task_name + "without deadline !");
+            System.out.println("Client " + id_client + " try to add task " + task_name + " without deadline !");
         else
-            System.out.println("Client " + id_client + " try to add task " + task_name + "do before " + date.toString() + " !");
+            System.out.println("Client " + id_client + " try to add task " + task_name + "to do before " + date.toString() + " !");
     
         ToDoList client_list = todo_lists.get(id_client);
 
