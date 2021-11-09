@@ -17,7 +17,7 @@ public class Date implements Serializable {
 
     public static boolean isBissextile (int month)
     {
-        if ((month % 4) == 0))
+        if ((month % 4) == 0)
         {
             if ((month % 100) == 0)
             {
