@@ -21,4 +21,4 @@ server:
 
 clean:
 	@echo cleaning class files
-	rm -rf src/*.class
+	rm -frv src/*.class

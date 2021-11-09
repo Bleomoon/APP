@@ -60,7 +60,7 @@ public class Client {
 						File file = new File(args[1]);
 						scanner = new Scanner(file);
 					}
-					catch(Exception e)
+					catch(FileNotFoundException e)
 					{
 						System.out.println("Could not read the file");
 						end = true;
