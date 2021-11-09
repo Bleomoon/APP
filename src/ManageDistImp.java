@@ -4,7 +4,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-public class ManageDistImp extends UnicastRemoteObject implements ManageDist 
+public class ManageDistImp extends UnicastRemoteObject implements ManageDist
 {
     private HashMap<Integer, ToDoList> todo_lists;
     private int nb_clients_connected;
@@ -55,7 +55,7 @@ public class ManageDistImp extends UnicastRemoteObject implements ManageDist
         }
     }
 
-    public int add(String task_name, Date date, int id_client) throws RemoteException
+    public int add(String task_name, Date date, int id_client)
     {
         if (date == null)
             System.out.println("Client " + id_client + " try to add task " + task_name + "without deadline !");

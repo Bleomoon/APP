@@ -12,7 +12,6 @@ public class ToDoList {
     public int addTask(Task t){
         tasks.add(t);
         return tasks.size()-1;
-          
     }
     public boolean isContent(String s){
         boolean b = false;

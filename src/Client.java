@@ -11,88 +11,126 @@ public class Client {
 
     public static int askInt(Scanner scanner){
         String sIn = scanner.nextLine();
-        int in = 0;
+        int in = -1;
         try {
             in = Integer.parseInt(sIn);
         } catch (Exception e) {
-            System.out.println("Erreur ce n'est pas un entier");
+            System.out.println("Error ! Not an integer");
         }
         return in ;
+    }
+	
+	public static Date askDate(Scanner scanner){
+		int day, month, year = -1;
+		do{
+			System.out.println("Day : ");
+			day = askInt(scanner);
+		}while(day == -1);
+		do{
+			System.out.println("Month : ");
+            month = askInt(scanner);
+		}while(month == -1);
+		do{
+			System.out.println("Year : ");
+            year = askInt(scanner);
+		}while(year == -1);
+        return new Date(day, month, year);
     }
 
     public static void main(String[] args) throws RemoteException {
         ManageDist objdist = null;
         int id = 0;
+		
         try {
-            System.out.println("Recherche de l'objet.");
+            System.out.println("Searching for object.");
             String url = "rmi://" + args[0] + "/echoservice";
             objdist = (ManageDist) Naming.lookup(url);
             id = objdist.connect();
             if (id != -1) {
                 Scanner scanner = new Scanner(System.in);
                 boolean end = false;
+				Date date;
+				int idTask, adding, isDate= -1;
+				Status myStatus;
                 while (!end) {
-                    System.out.println("Quelles actions souhaitez-vous faire :\n" +
-                            "1 : ajout d'une tache\n" +
-                            "2 : rendre prioritaire une tache\n" +
-                            "3 : savoir le nombre qu'il reste a faire\n" +
-                            "4 : voir une tache\n" +
-                            "5 : supprimer une tache\n" +
+					//initialise data, ask the choice and start the switch
+					myStatus = null;
+					date = null;
+                    System.out.println("What do you want to do ? :\n" +
+                            "1 : add a task\n" +
+                            "2 : changing priority of a task\n" +
+                            "3 : knowing how much task still need to be done\n" +
+                            "4 : see a task\n" +
+                            "5 : delete a task\n" +
                             "0 : deconnexion\n"
                     );
+					
                     int choice = askInt(scanner);
-                    int idTask;
                     switch (choice){
-                        case 0 :
-                            objdist.close(id);
-                            end = true;
+                        case 0 : //client disconnect
+                            myStatus = objdist.close(id);
+							if(myStatus == Status.success)
+								end = true;
+							System.out.println(myStatus);
                             break;
-                        case 1 :
-                            System.out.println("Donnez le nom de la tache");
+                        case 1 : //client add a task
+                            System.out.println("Give it a name!");
                             String name = scanner.nextLine();
-                            System.out.println("Voulez vous une date de fin. (1=oui, 0=non)");
-                            int isDate = askInt(scanner);
-                            Date date = null;
-                            if (isDate == 1) {
-                                System.out.println("Jour : ");
-                                int day = askInt(scanner);
-                                System.out.println("Mois : ");
-                                int month = askInt(scanner);
-                                System.out.println("Annee : ");
-                                int year = askInt(scanner);
-                                if ( day == 0 || month == 0 || year == 0) {
-                                    date = null;
-                                } else {
-                                    date = new Date(day, month, year);
-                                }
-                            }
-                            objdist.add(name, date, id);
+							do {
+								System.out.println("Do you want an ending date ? (1=yes, 0=no)");
+								isDate = askInt(scanner);
+                            }while(isDate != 0 && isDate != 1);
+							
+                            if (isDate == 1)
+								date = askDate(scanner);
+							System.out.println("JE SUIS PASSE PAR LA");
+                            adding = objdist.add(name, date, id);
+							System.out.println("JE SUIS PASSE PAR LA");
+							if(adding == -1)
+								System.out.println("Error in adding the new task");
+							else
+								System.out.println("Task N°" + adding + " add succefully!");
                             break;
-                        case 2 :
-                            System.out.println("Quel est la tache que vous voulez priorisez ?");
-                            idTask = askInt(scanner);
-                            objdist.changePriority(idTask, id);
+                        case 2 : //client change priority
+                            do {
+								System.out.println("On which task do you want to change the priority ?");
+								idTask = askInt(scanner);
+							}while(idTask == -1);
+							myStatus = objdist.changePriority(idTask, id);
+							if(myStatus == Status.success)
+								System.out.println("Priority of task : " + idTask + " changed successfully !");
+							else
+								System.out.println(myStatus);
                             break;
-                        case 3 :
-                            System.out.println("Il reste " +objdist.getNbTask(id)+ " tache dans votre todo List");
+                        case 3 : //client ask number of tasks
+                            System.out.println("There is " + objdist.getNbTask(id)+ " task to do in your todo List");
                             break;
-                        case 4 :
-                            System.out.println("Quel tache voulez vous voir ?");
-                            idTask = askInt(scanner);
-                            System.out.println(objdist.getTask(idTask, id).toString());
+                        case 4 : //client ask which task to see
+                            do {
+								System.out.println("Which task do you want to see ?");
+								idTask = askInt(scanner);
+                            }while(idTask == -1);
+							System.out.println(objdist.getTask(idTask, id).toString());
                             break;
-                        case 5 :
-                            System.out.println("Quel est la tache que vous voulez supprimez ?");
-                            idTask = askInt(scanner);
-                            objdist.deleteTask(idTask,id);
+                        case 5 : //client ask which one to delete
+                            do {
+								System.out.println("Which task do you want to delete ?");
+								idTask = askInt(scanner);
+							}while(idTask == -1);
+                            myStatus = objdist.deleteTask(idTask,id);
+							if(myStatus == Status.success)
+								System.out.println("Task : " + idTask + " deleted successfully !");
+							else
+								System.out.println(myStatus);
                             break;
                         default:
-                            System.out.println("Action inexistante");
+                            System.out.println("Unidentified action");
                             break;
                     }
+					System.out.print("\n");
                 }
             } else {
-                System.out.println("Serveur plein. Reessayer ulterieurement");
+                System.out.println("Server full. Try again later!");
             }
         } catch(Exception e) {
             objdist.close(id);
