@@ -73,7 +73,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
        	do{
 			if (list == null )
 				list = this.nbs.get(id_client);
-			System.out.println("Waiting generation of the number...");
+			System.out.println("Waiting for "+ id_client + " the generation of the number...");
 			Thread.sleep(100);
         } while(list == null || list.isEmpty());
         int nb = list.get(0);
