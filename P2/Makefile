@@ -8,7 +8,7 @@ build:
 
 client:
 	@echo launching client1, hostname = ${HOSTNAME}
-	java src.Client "${HOSTNAME}" 1 1500
+	java src.Client "${HOSTNAME}" 1 2
 
 
 server:

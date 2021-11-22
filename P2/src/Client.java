@@ -75,7 +75,9 @@ public class Client {
             String url = "rmi://" + args[0] + "/echoservice";
             objdist = (ClockDist) Naming.lookup(url);
             int n = Integer.parseInt(args[1]);
+			int x = Integer.parseInt(args[2]);
             
+			myClient.connectNew(n, x, objdist);
 
 
             for (int i= 0; i < n; i++){

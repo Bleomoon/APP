@@ -22,21 +22,25 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
                 System.out.println("A client try to connect but no slot free!");
                 return -1;
             }
-
+            
             cptClient ++;
-            int number;
-            int id_client = (int) (Math.random() * ( 100000 - 0 ));
-            System.out.println("Client is connected !\n With ID :" + id_client);
-
-            while (client != null){
-                Thread.sleep(x*1000);
-                for (int i = 0; i < n ; i++) {
-                    number = (int) (Math.random() * ( 100000 - 0 ));
-                    client.add_new(number, id_client);
-                }
-            }
-            return 0;
+            
         }
+                System.out.println("Client connected !");
+        
+        int number;
+        int id_client = (int) (Math.random() * ( 100000 - 0 ));
+        System.out.println("Client is connected !\n With ID :" + id_client);
+
+        if (client != null) {
+            for (int i = 0; i < n ; i++) {
+                Thread.sleep(x*1000);
+                number = (int) (Math.random() * ( 100000 - 0 ));
+                System.out.println("Generate " + number);
+                client.add_new(number, id_client);
+            }
+        }
+        return 0;
     }
     
     public Status close(int id_client) throws RemoteException, InterruptedException
