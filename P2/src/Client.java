@@ -9,22 +9,26 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import javax.sound.sampled.SourceDataLine;
 
+import java.rmi.server.UnicastRemoteObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.Serializable;
 
-public class Client {
+public class Client implements Serializable {
     private HashMap<Integer, ArrayList<Integer>> nbs;
+    private static final long serialVersionUID = 1L;
 
-	public Client()
+    public Client()
+    {
+            nbs = new HashMap<Integer, ArrayList<Integer>>();
+    }
+
+    public void add_new(int generated, int id_client)
 	{
-		nbs = new HashMap<Integer, ArrayList<Integer>>();
-	}
-
-    public void add_new(int generated, int id_client){
 		ArrayList<Integer> current = nbs.get(id_client);
 
 		if (current != null)
@@ -37,17 +41,12 @@ public class Client {
     {
         Client client = this;
         Thread t = new Thread(() -> {
-			
-            System.out.println("Thread go !" + objdist.toString()); 
-
-			if (objdist == null)
-            	System.out.println("je suis null !"); 
-
             try {
+				//System.out.println("client = " + client.toString());
                 objdist.connect(n, x, client);
             } catch (Exception e){
                 try {
-            System.out.println("je close !"); 
+            		System.out.println("je close !"); 
 					
                     objdist.close(0);
                 } catch (Exception ex) {
@@ -65,6 +64,7 @@ public class Client {
             nbs.put(id_client, new ArrayList<Integer>());
             list = nbs.get(id_client);
         }
+
         while(list.isEmpty()){
                 System.out.println("Waiting generation of the number...");
                 Thread.sleep(100);
@@ -91,8 +91,9 @@ public class Client {
 			myClient.connectNew(n, x, objdist);
 
 
+            System.out.println("n = " + n + " : x = " + x); 
             for (int i= 0; i < n; i++){
-                System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(id)); 
+                System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(0)); 
             }
         } catch(Exception e) {
             objdist.close(id);

@@ -8,13 +8,14 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 {
     private static int cptClient;
     public static final int MAX_CLIENT = 3;
+    private static final long serialVersionUID = 1L;
 
     public ClockDistImp() throws RemoteException
     {
         ClockDistImp.cptClient = 0;
     }
 
-    public int connect(int n, int x, Client client) throws RemoteException, InterruptedException // return the client id or -1 if client pool is overflow
+    public int connect(int n, int x, Client client) throws RemoteException, InterruptedException 
     {
         System.out.println("coucou !");
         synchronized(this){
@@ -38,7 +39,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
                 Thread.sleep(x*1000);
                 number = (int) (Math.random() * ( 100000 - 0 ));
                 System.out.println("Generate " + number);
-                client.add_new(number, id_client);
+                client.add_new(number, 0);
             }
         }
         return 0;
