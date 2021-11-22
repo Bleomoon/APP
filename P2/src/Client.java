@@ -22,7 +22,6 @@ public class Client {
 		nbs = new HashMap<Integer, ArrayList<Integer>>();
 	}
 
-
 	@Async
     public void add_new(int generated, int id_client){
 		ArrayList<Integer> current = nbs.get(id_client);
@@ -49,6 +48,15 @@ public class Client {
         int id = 0;
 		
         try {
+				System.out.println("Searching for object.");
+				String url = "rmi://" + args[0] + "/echoservice";
+				objdist = (ManageDist) Naming.lookup(url);
+				int n = Integer.valueof(args[1]);
+				id = objdist.connect(, Integer.valueof(args[2]), this);
+				
+				for (int i= 0, i < n; i++){
+					System.out.println("The generated number " + (i + 1) + " is " + getNumber(id)); 
+				}
 
             }
         } catch(Exception e) {
