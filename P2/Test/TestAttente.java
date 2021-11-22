@@ -34,8 +34,6 @@ public class TestAttente {
                 }
                 System.out.println("The server generate : " + current);
             }
-
-            Naming.unbind("client");
         }
         catch ( Exception e) {
             System.out.println(e);
