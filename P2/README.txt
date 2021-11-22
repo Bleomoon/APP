@@ -23,7 +23,12 @@ Classes :
 - Status :
 	- classe enum permettant de renvoyer un status de connexion entre le client et le serveur.
 
-
+avant le lancement des tests il faut faire :
+make build 
+et les commandes suivante dans 3 terminaux différents 
+	-rmiregistry
+	-make server
+	-make test1 (pour le test 1 sinon changer le chiffre par le numero du test)
 Test
 Des fichier de test sont dans le Dossier Test.
 6 tests sont effectué pour vérifié que les clients fonctionne bien en parallèle.
