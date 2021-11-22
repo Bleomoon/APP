@@ -19,6 +19,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         idList = new ArrayList<Integer>();
     }
 
+    // handle the maximum number of client connected and create the random idClient
     public int connect() throws RemoteException, InterruptedException 
     {
         synchronized(this){
@@ -38,6 +39,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         }
     }
     
+    // disconnect a client, drcrease number of client connected and remove the id in his list
     public Status close(int id) throws RemoteException, InterruptedException
     {
         synchronized(this){
@@ -60,6 +62,8 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             return Status.success;
         }
     }
+
+    // function that add n number in the client with x seconds between each
     public void generateNumber(int n, int x, String hostname, int id_client)throws RemoteException, InterruptedException {
         ClientInt objdist = null;
         try {
