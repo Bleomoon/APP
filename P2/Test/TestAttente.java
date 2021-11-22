@@ -9,7 +9,7 @@ import src.Client;
 /*
 ** Création de un client qui fait plusieurs requete
 */
-public class MultiClientTest {
+public class TestAttente {
     public static void main(String[] args) throws RemoteException {
         ClockDist objdist = null;
 		ClientInt objserv = null;
@@ -25,9 +25,7 @@ public class MultiClientTest {
             String url = "rmi://" + args[0] + "/echoservice";
             objdist = (ClockDist) Naming.lookup(url);
 
-            int id1 = ((Client)objserv).connectNew(4, 1, "localhost", objdist);
-            int id2 = ((Client)objserv).connectNew(5, 3, "localhost", objdist);
-            int id3 = ((Client)objserv).connectNew(3, 1, "localhost", objdist);
+            int id1 = ((Client)objserv).connectNew(4, 500, "localhost", objdist);
         }
         catch ( Exception e) {
             System.out.println(e);

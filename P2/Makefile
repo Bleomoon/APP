@@ -22,6 +22,10 @@ test3:
 	@echo launching MultiClientTest3, hostname = ${HOSTNAME}
 	java Test.MultiClientTest3 "${HOSTNAME}"
 
+test4:
+	@echo launching MultiClientTest4, hostname = ${HOSTNAME}
+	java Test.MultiClientTest4 "${HOSTNAME}"
+
 server:
 	@echo launching server...
 	java src.Server
@@ -29,4 +33,4 @@ server:
 clean:
 	@echo cleaning class files
 	rm -frv src/*.class
-	rm -frv test/*.class
+	rm -frv Test/*.class
