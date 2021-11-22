@@ -2,13 +2,20 @@ package src;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import javax.sound.sampled.SourceDataLine;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Client {
 
     public int ID;
+	public HashMap<integer, ArrayList<integer>> nbs;
 
     public static int askInt(Scanner scanner){
         String sIn = scanner.nextLine();
@@ -37,6 +44,15 @@ public class Client {
 		}while(year == -1);
         return new Date(day, month, year);
     }
+
+	public int getNumber(int id_client){
+		ArrayList list = this.nbs.get(id_client);
+		while(list.size() == 0){
+			System.out.printl("Waiting generation of the number...");
+			Thread.sleep(100);
+		}
+		return list.get(0);
+	}
 
     public static void main(String[] args) throws RemoteException {
         ClockDist objdist = null;
