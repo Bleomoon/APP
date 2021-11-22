@@ -16,6 +16,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 
     public int connect(int n, int x, Client client) throws RemoteException, InterruptedException // return the client id or -1 if client pool is overflow
     {
+        System.out.println("coucou !");
         synchronized(this){
             if ( cptClient >= MAX_CLIENT)
             {
@@ -26,7 +27,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             cptClient ++;
             
         }
-                System.out.println("Client connected !");
+        System.out.println("Client connected !");
         
         int number;
         int id_client = (int) (Math.random() * ( 100000 - 0 ));

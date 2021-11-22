@@ -37,16 +37,26 @@ public class Client {
     {
         Client client = this;
         Thread t = new Thread(() -> {
+			
+            System.out.println("Thread go !" + objdist.toString()); 
+
+			if (objdist == null)
+            	System.out.println("je suis null !"); 
+
             try {
                 objdist.connect(n, x, client);
             } catch (Exception e){
                 try {
+            System.out.println("je close !"); 
+					
                     objdist.close(0);
                 } catch (Exception ex) {
                     System.out.println(ex.toString());
                 } 
             }
         });
+		t.start();
+		
     }
 
     public int getNumber(int id_client) throws InterruptedException{
@@ -77,6 +87,8 @@ public class Client {
             int n = Integer.parseInt(args[1]);
 			int x = Integer.parseInt(args[2]);
             
+            System.out.println("Launch the client"); 
+
 			myClient.connectNew(n, x, objdist);
 
 
