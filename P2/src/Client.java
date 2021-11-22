@@ -11,12 +11,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import javax.sound.sampled.SourceDataLine;
 
 import java.rmi.server.UnicastRemoteObject;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Scanner;
 import java.io.Serializable;
 
 public class Client extends UnicastRemoteObject implements ClientInt {
@@ -77,7 +74,26 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     public int getNumber(int id_client) throws InterruptedException{
 		ArrayList<Integer> list =  this.nbs.get(id_client);;
 
+        if (list == null || list.isEmpty()){
+            System.out.println("the server is press and don't have all ready generate a number do you want exit ? (y/n)");
+            Scanner scanner = new Scanner(System.in);
+            String next = scanner.nextLine();
+            while (!next.equals("") && !next.equals("n") && !next.equals("y"))
+            {
+                System.out.println("Enter y or n :");
+                next = scanner.nextLine();
+            }
+
+            if ( next.equals("") || next.equals("y") )
+                return -1;
+        }
+        
+
+        
        	while(list == null || list.isEmpty()){
+            
+
+
 			if (list == null )
 				list = this.nbs.get(id_client);
 			System.out.println("Waiting for "+ id_client + " the generation of the number...");

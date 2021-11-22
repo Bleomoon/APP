@@ -26,6 +26,16 @@ public class TestAttente {
             objdist = (ClockDist) Naming.lookup(url);
 
             int id1 = ((Client)objserv).connectNew(4, 500, "localhost", objdist);
+
+            for (int i = 0; i < 4; i++) {
+                int current = ((Client)objserv).getNumber(id1);
+                if (current == -1 ) {
+                    break;
+                }
+                System.out.println("The server generate : " + current);
+            }
+
+            Naming.unbind("client");
         }
         catch ( Exception e) {
             System.out.println(e);
