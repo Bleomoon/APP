@@ -31,7 +31,11 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             
             cptClient ++;
                 
-            int id_client = (int) (Math.random() * ( 100000 - 0 ));
+            int id_client;
+            do{
+                id_client = (int) (Math.random() * ( 100000 - 0 ));
+            }
+            while(idList.contains(id_client));
             System.out.println("Client is connected !\n With ID :" + id_client);
             idList.add(id_client);
             
