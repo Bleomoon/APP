@@ -49,9 +49,16 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         int id = objdist.connect();
         Thread t = new Thread(() -> {
             try {
-
                 objdist.generateNumber(n, x, hostname, id);
+            }catch (RemoteException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            try {
                 objdist.close(id);
+            }catch (NoClientException e) {
+                System.out.println("The server tried to disconnect a client but nobody was connected !");
             }catch (Exception e) {
                 System.out.println(e);
             }
@@ -61,7 +68,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         if (id != -1) 
 		    t.start();
         else
-            System.out.println("No Server Thread free !");
+            System.out.println("There is no thread free for the server !");
 
         return id;
 		
@@ -79,46 +86,5 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         int nb = list.get(0);
         list.remove(0);
         return nb;
-    }
-
-    public static void main(String[] args) throws InterruptedException, RemoteException {
-        Client myClient = new Client();
-        ClockDist objdist = null;
-		ClientInt objserv = null;
-        int id = 0;
-
-        int current_id;
-        try {
-            System.out.println("Creation de l'objet.");
-            objserv=new Client();
-            myClient =(Client) objserv;
-            System.out.println("Enregistrement de l'objet.");
-            Naming.rebind("client",objserv);
-            System.out.println("serveur operationnel.");
-            System.out.println("Searching for object.");
-            String url = "rmi://" + args[0] + "/echoservice";
-            objdist = (ClockDist) Naming.lookup(url);
-            int n = Integer.parseInt(args[1]);
-			int x = Integer.parseInt(args[2]);
-        
-			current_id = myClient.connectNew(n, x,  "localhost", objdist);
-
-            System.out.println("n = " + n + " : x = " + x); 
-
-            int i, cpt = 0;
-            for (i = 0; i < 2000000; i ++){
-                System.out.println("");
-            }
-
-            for (i= 0; i < n; i++){
-                System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(current_id)); 
-            }
-
-        } catch(Exception e) {
-			System.out.println(e);
-        }
-
-        
-        return ;
     }
 }

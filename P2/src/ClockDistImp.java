@@ -67,7 +67,6 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             String url = "rmi://"+hostname+"/client";
             objdist = (ClientInt) Naming.lookup(url);
             System.out.println("Client find !");
-            // ConnectException
         } catch (Exception e) {
             System.out.println(e);
         }

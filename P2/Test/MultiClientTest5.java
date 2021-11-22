@@ -3,11 +3,11 @@ package Test;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import src.*;
-
+import java.net.ConnectException;
 import src.Client;
 
 public class MultiClientTest5 {
-    public static void main(String[] args) throws InterruptedException, RemoteException {
+    public static void main(String[] args) throws InterruptedException, RemoteException, ConnectException {
         Client myClient = new Client();
         ClockDist objdist = null;
 		ClientInt objserv = null;
@@ -27,7 +27,7 @@ public class MultiClientTest5 {
             int n = Integer.parseInt(args[1]);
 			int x = Integer.parseInt(args[2]);
         
-			myClient.connectNew(n, x,  "localhost", objdist);
+			current_id = myClient.connectNew(n, x,  "localhost", objdist);
 
             System.out.println("n = " + n + " : x = " + x); 
 
@@ -40,10 +40,9 @@ public class MultiClientTest5 {
                 System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(current_id)); 
             }
 
-            return ;
         } catch(Exception e) {
 			System.out.println(e);
-            objdist.close();
         }
+        return ;
     }
 }

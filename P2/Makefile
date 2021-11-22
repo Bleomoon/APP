@@ -4,12 +4,9 @@ default: build
 
 build:
 	@echo building...
-	javac -Xlint:all -Xdiags:verbose */*.java
-
-client:
-	@echo launching client1, hostname = ${HOSTNAME}
-	java src.Client "${HOSTNAME}" 1 2
-
+	javac -Xlint:all -Xdiags:verbose src/*.java
+	javac -Xlint:all -Xdiags:verbose Test/*.java
+	
 test1:
 	@echo launching MultiClientTest, hostname = ${HOSTNAME}
 	java Test.MultiClientTest "${HOSTNAME}"
@@ -25,6 +22,14 @@ test3:
 test4:
 	@echo launching MultiClientTest4, hostname = ${HOSTNAME}
 	java Test.MultiClientTest4 "${HOSTNAME}"
+
+test5:
+	@echo launching MultiClientTest5, hostname = ${HOSTNAME}
+	java Test.MultiClientTest5 "${HOSTNAME}"
+
+test6:
+	@echo launching TestAttente, hostname = ${HOSTNAME}
+	java Test.TestAttente "${HOSTNAME}"
 
 server:
 	@echo launching server...
