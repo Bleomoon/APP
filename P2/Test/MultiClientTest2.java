@@ -3,20 +3,29 @@ package Test;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import src.*;
+
 import src.Client;
 
-public class MultiClientTest {
+public class MultiClientTest2 {
     public static void main(String[] args) throws RemoteException {
         ClockDist objdist = null;
         int id = 0;
-		ClientInt objserv = null;
+
+		ClientInt objserv1 = null;
+		ClientInt objserv2 = null;
 
         int current_id;
         try {
             System.out.println("Creation de l'objet.");
-            objserv=new Client();
+            objserv1 = new Client();
             System.out.println("Enregistrement de l'objet.");
-            Naming.rebind("client",objserv);
+            Naming.rebind("client",objserv1);
+            System.out.println("serveur operationnel.");
+            
+            System.out.println("Creation de l'objet.");
+            objserv2 = new Client();
+            System.out.println("Enregistrement de l'objet.");
+            Naming.rebind("client",objserv2);
             System.out.println("serveur operationnel.");
 
             System.out.println("Searching for object.");
@@ -25,10 +34,8 @@ public class MultiClientTest {
 
             int id1 = objdist.connect();
             int id2 = objdist.connect();
-            int id3 = objdist.connect();
-            ((Client)objserv).connectNew(4, 1, "localhost", objdist, id1);
-            ((Client)objserv).connectNew(5, 3, "localhost", objdist, id2);
-            ((Client)objserv).connectNew(3, 1, "localhost", objdist, id3);
+            ((Client)objserv1).connectNew(50, 1, "localhost", objdist, id1);
+            ((Client)objserv2).connectNew(50, 3, "localhost", objdist, id2);
         }
         catch ( Exception e) {
             System.out.println(e);
