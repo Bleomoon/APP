@@ -44,20 +44,26 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 		
 	}	
     
-    public void connectNew(int n, int x, String hostname, ClockDist objdist, int current_id) throws InterruptedException, RemoteException
+    public int connectNew(int n, int x, String hostname, ClockDist objdist) throws InterruptedException, RemoteException
     {
-        Client client = this;
+        int id = objdist.connect();
         Thread t = new Thread(() -> {
             try {
 
-                objdist.generateNumber(n, x, hostname, current_id);
-                objdist.close();
+                objdist.generateNumber(n, x, hostname, id);
+                objdist.close(id);
             }catch (Exception e) {
                 System.out.println(e);
             }
             
         });
-		t.start();
+
+        if (id != -1) 
+		    t.start();
+        else
+            System.out.println("No Server Thread free !");
+
+        return id;
 		
     }
 
@@ -78,8 +84,8 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     public static void main(String[] args) throws InterruptedException, RemoteException {
         Client myClient = new Client();
         ClockDist objdist = null;
-        int id = 0;
 		ClientInt objserv = null;
+        int id = 0;
 
         int current_id;
         try {
@@ -95,8 +101,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             int n = Integer.parseInt(args[1]);
 			int x = Integer.parseInt(args[2]);
         
-            current_id = objdist.connect();
-			myClient.connectNew(n, x,  "localhost", objdist, current_id);
+			myClient.connectNew(n, x,  "localhost", objdist);
 
             System.out.println("n = " + n + " : x = " + x); 
 
@@ -108,7 +113,6 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             for (i= 0; i < n; i++){
                 System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(current_id)); 
             }
-
 
             return ;
         } catch(Exception e) {
