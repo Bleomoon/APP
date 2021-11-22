@@ -45,9 +45,18 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
                 throw new NoClientException(); // if the compteur is null or less. i can't remove the compteur.
             if (!idList.contains(id))
                 throw new NoClientException();
-            System.out.println("Client " +id+ "is disconnect !");
+            System.out.println("Client " +id+ " is disconnect !");
             cptClient--;
-            idList.remove(id);
+
+            // remove the id in the list
+            for (int i = 0; i < idList.size(); i++)
+            {
+                if (idList.get(i) == id){
+                    idList.remove(i);
+                    break;
+                }
+            }
+
             return Status.success;
         }
     }
@@ -58,7 +67,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             String url = "rmi://"+hostname+"/client";
             objdist = (ClientInt) Naming.lookup(url);
             System.out.println("Client find !");
-            
+            // ConnectException
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -48,15 +48,10 @@ public class MultiClientTest3 {
             String url = "rmi://" + args[0] + "/echoservice";
             objdist = (ClockDist) Naming.lookup(url);
 
-            int id1 = objdist.connect();
-            int id2 = objdist.connect();
-            int id3 = objdist.connect();
-            int id4 = objdist.connect();
-
-            ((Client)objserv1).connectNew(50, 1, "localhost", objdist, id1);
-            ((Client)objserv2).connectNew(50, 1, "localhost", objdist, id2);
-            ((Client)objserv1).connectNew(50, 1, "localhost", objdist, id3);
-            ((Client)objserv2).connectNew(50, 1, "localhost", objdist, id4);
+            int id1 =((Client)objserv1).connectNew(50, 1, "localhost", objdist);
+            int id2 =((Client)objserv2).connectNew(50, 1, "localhost", objdist);
+            int id3 =((Client)objserv1).connectNew(50, 1, "localhost", objdist);
+            int id4 =((Client)objserv2).connectNew(50, 1, "localhost", objdist);
         }
         catch ( Exception e) {
             System.out.println(e);
