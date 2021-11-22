@@ -20,11 +20,13 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     private HashMap<Integer, ArrayList<Integer>> nbs;
     private static final long serialVersionUID = 1L;
 
+
     public Client() throws RemoteException
     {
             nbs = new HashMap<Integer, ArrayList<Integer>>();
     }
 
+    //find the client to add the random generated number into his list, if not found create one
     public void add_new(int generated, int id_client) throws RemoteException
 	{
 		ArrayList<Integer> current = nbs.get(id_client);
@@ -41,6 +43,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 		
 	}	
     
+    // Create the thread that manage the launch of the generation of n number with x seconds between each of them
     public int connectNew(int n, int x, String hostname, ClockDist objdist) throws InterruptedException, RemoteException
     {
         int id = objdist.connect();
@@ -71,6 +74,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 		
     }
 
+    //return the first number found on a specific client
     public int getNumber(int id_client) throws InterruptedException{
 		ArrayList<Integer> list =  this.nbs.get(id_client);;
 
