@@ -6,10 +6,8 @@ import java.util.HashMap;
 
 public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 {
-    private HashMap<Integer, ToDoList> todo_lists;
-    private int nb_clients_connected;
-    public final static int MAX_CLIENT = 3;
-    private static final long serialVersionUID = 1L;
+    private static int cptClient;
+    public static final MAX_CLIENT = 3;
 
     public ClockDistImp() throws RemoteException
     {
@@ -17,7 +15,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         this.nb_clients_connected = 0;
     }
 
-    public int connect() throws RemoteException // return the client id or -1 if client pool is overflow
+    public int connect(int n, int x, Client client) throws RemoteException // return the client id or -1 if client pool is overflow
     {
         synchronized(this){
             if ( nb_clients_connected >= MAX_CLIENT)
@@ -27,18 +25,17 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             }
 
             nb_clients_connected ++;
-            int id_client = 0;
-
-            // find and unique is_client
-            do{
-                id_client = (int) (Math.random() * ( 100000 - 0 ));
-            }while(todo_lists.get(id_client) != null);
-
-            ToDoList client_list = new ToDoList();
-            todo_lists.put(id_client, client_list); // TODO recup ret and throw if -1 
-
+            int number = 0;
             System.out.println("Client " + id_client + " is connected !");
-            return id_client;
+
+            while (Boolean.true && client != null){
+                thread.sleep(x*1000);
+                for (int i = 0; i < n ; i++) {
+                    number = (int) (Math.random() * ( 100000 - 0 ));
+                    client.add(number);
+                }
+            }
+            return Status.success;
         }
     }
     
@@ -47,9 +44,6 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         synchronized(this){
             if (nb_clients_connected <= 0)
                 throw new NoClientException(); // if the compteur is null or less. i can't remove the compteur.
-
-            // remove all tasks of the client on the map
-            todo_lists.remove(id_client);
             System.out.println("Client " + id_client + " is disconnect !");
 			nb_clients_connected--;
             return Status.success;
