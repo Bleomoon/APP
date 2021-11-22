@@ -38,17 +38,24 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         }
 
 		synchronized(this) {
-			System.out.println(generated + " added !");
+			System.out.println(generated + " added for client " + id_client + " !");
 			current.add(generated);	
 		}
 		
 	}	
     
-    public void connectNew(int n, int x, String hostname) throws InterruptedException, RemoteException
+    public void connectNew(int n, int x, String hostname, ClockDist objdist, int current_id) throws InterruptedException, RemoteException
     {
         Client client = this;
         Thread t = new Thread(() -> {
-            objdist.generateNumber(n, x, hostname);
+            try {
+
+                objdist.generateNumber(n, x, hostname, current_id);
+                objdist.close();
+            }catch (Exception e) {
+                System.out.println(e);
+            }
+            
         });
 		t.start();
 		
@@ -74,6 +81,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         int id = 0;
 		ClientInt objserv = null;
 
+        int current_id;
         try {
             System.out.println("Creation de l'objet.");
             objserv=new Client();
@@ -88,16 +96,16 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             int n = Integer.parseInt(args[1]);
 			int x = Integer.parseInt(args[2]);
         
-            objdist.connect();
-			myClient.connectNew(n, x,  "localhost", objdist);
+            current_id = objdist.connect();
+			myClient.connectNew(n, x,  "localhost", objdist, current_id);
 
             System.out.println("n = " + n + " : x = " + x); 
             for (int i= 0; i < n; i++){
-                System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(0)); 
+                System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(current_id)); 
             }
         } catch(Exception e) {
 			System.out.println(e);
-            objdist.close(id);
+            objdist.close();
         }
     }
 }

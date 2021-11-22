@@ -12,7 +12,7 @@ client:
 
 test1:
 	@echo launching MultiClientTest, hostname = ${HOSTNAME}
-	java test.MultiClientTest "${HOSTNAME}"
+	java Test.MultiClientTest "${HOSTNAME}"
 
 server:
 	@echo launching server...

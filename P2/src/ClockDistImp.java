@@ -26,28 +26,11 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             }
             
             cptClient ++;
-            
+                
+            int id_client = (int) (Math.random() * ( 100000 - 0 ));
+            System.out.println("Client is connected !\n With ID :" + id_client);
+            return id_client;
         }
-        ClientInt objdist = null;
-        try {
-            // connect to the opject
-            System.out.println("Searching for object.");
-            String url = "rmi://" + hostname + "/client";
-            objdist = (ClientInt) Naming.lookup(url);
-            System.out.println("Client find !");
-            
-        } catch (Exception e) {
-            System.out.println(e);
-            return -1;
-        }
-
-
-        int number;
-        int id_client = (int) (Math.random() * ( 100000 - 0 ));
-        System.out.println("Client is connected !\n With ID :" + id_client);
-
-        
-        return id_client;
     }
     
     public Status close() throws RemoteException, InterruptedException
@@ -60,7 +43,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             return Status.success;
         }
     }
-    public void generateNumber(int x, int n, String hostname)throws RemoteException, InterruptedException {
+    public void generateNumber(int n, int x, String hostname, int id_client)throws RemoteException, InterruptedException {
         ClientInt objdist = null;
         try {
             System.out.println("Searching for object.");
@@ -78,8 +61,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             for (int i = 0; i < n ; i++) {
                 Thread.sleep(x*1000);
                 number = (int) (Math.random() * ( 100000 - 0 ));
-                System.out.println("Generate " + number + " client  = " + objdist.toString());
-                objdist.add_new(number, 0);
+                objdist.add_new(number, id_client);
             }
         }
     }
