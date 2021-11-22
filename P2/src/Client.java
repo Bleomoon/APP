@@ -19,10 +19,10 @@ import java.util.logging.Logger;
 public class Client {
     private HashMap<Integer, ArrayList<Integer>> nbs;
 
-    public Client()
-    {
-            nbs = new HashMap<Integer, ArrayList<Integer>>();
-    }
+	public Client()
+	{
+		nbs = new HashMap<Integer, ArrayList<Integer>>();
+	}
 
     public void add_new(int generated, int id_client){
 		ArrayList<Integer> current = nbs.get(id_client);
@@ -65,7 +65,6 @@ public class Client {
             nbs.put(id_client, new ArrayList<Integer>());
             list = nbs.get(id_client);
         }
-
         while(list.isEmpty()){
                 System.out.println("Waiting generation of the number...");
                 Thread.sleep(100);
