@@ -26,8 +26,14 @@ Classes :
 
 Test
 Des fichier de test sont dans le Dossier Test.
-4 tests sont effectué pour vérifié que les clients fonctionne bien en parallèle.
-le premier test crée plusieurs requête venant d'un même client 
+6 tests sont effectué pour vérifié que les clients fonctionne bien en parallèle.
+le premier test crée plusieurs requête venant d'un même client.
+	- test la possibilité pour un client de faire plusieur requete differente au serveur 
 le deuxième test crée plusieurs clients faisant une requête avec des paramètres différents.
+	- test la possibilité pour plusieurs clients de faire une requête au serveur
 le troisième test crée plusieurs clients faisant une requête avec les même paramètres.
-le quatrième test crée deux client faisant deux requête chacun 
+	- test l'envoie simultané d'information
+le quatrième test crée deux client faisant deux requête chacun.
+	- test que plusieurs client peuvent faire plusieurs requete que le même serveur
+le cinquième test permet de testé le bon fonctionnement du client.
+le sixième test (testAttente) lance une requête avec 500 seconde entre chaque envoie de nombre pour testé la non attente active
