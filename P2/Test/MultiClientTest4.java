@@ -38,6 +38,7 @@ public class MultiClientTest4 {
             int id2 = ((Client)objserv1).connectNew(50, 1, "localhost", objdist);
             int id3 = ((Client)objserv2).connectNew(50, 3, "localhost", objdist);
             int id4 = ((Client)objserv2).connectNew(50, 3, "localhost", objdist);
+            Naming.unbind("client");
         }
         catch ( Exception e) {
             System.out.println(e);

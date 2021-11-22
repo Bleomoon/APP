@@ -40,7 +40,7 @@ public class MultiClientTest5 {
                 System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(current_id)); 
             }
 
-        } catch(Exception e) {
+        }  catch(Exception e) {
 			System.out.println(e);
         }
         return ;
