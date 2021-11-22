@@ -39,7 +39,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         }
     }
     
-    public Status close(int id_client) throws NoClientException
+    public Status close(int id_client) throws RemoteException, InterruptedException
     {
         synchronized(this){
             if (cptClient <= 0)
@@ -48,11 +48,6 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 			cptClient--;
             return Status.success;
         }
-    }
-
-    @Override
-    public int connect() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
