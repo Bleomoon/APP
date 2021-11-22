@@ -34,11 +34,13 @@ public class Client {
 
 	public int getNumber(int id_client){
 		ArrayList list = this.nbs.get(id_client);
-		while(list.size() == 0){
+		while(list.isEmpty()){
 			System.out.printl("Waiting generation of the number...");
 			Thread.sleep(100);
 		}
-		return list.get(0);
+		int nb = list.get(0);
+		list.remove(0);
+		return nb;
 	}
 
     public static void main(String[] args) throws RemoteException {
