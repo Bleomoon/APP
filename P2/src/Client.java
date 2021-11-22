@@ -2,6 +2,7 @@ package src;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -18,23 +19,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.Serializable;
 
-public class Client implements Serializable {
+public class Client extends UnicastRemoteObject implements ClientInt {
     private HashMap<Integer, ArrayList<Integer>> nbs;
     private static final long serialVersionUID = 1L;
 
-    public Client()
+    public Client() throws RemoteException
     {
             nbs = new HashMap<Integer, ArrayList<Integer>>();
     }
 
-    public void add_new(int generated, int id_client)
+    public void add_new(int generated, int id_client) throws RemoteException
 	{
 		ArrayList<Integer> current = nbs.get(id_client);
 
-		if (current != null)
-		{
+		if (current == null) {
+            nbs.put(id_client, new ArrayList<Integer>());
+            current = nbs.get(id_client);
+        }
+
+		synchronized(this) {
+			System.out.println(generated + "add !");
 			current.add(generated);	
 		}
+		
 	}	
     
     public void connectNew(int n, int x, ClockDist objdist) throws InterruptedException, RemoteException
@@ -42,10 +49,12 @@ public class Client implements Serializable {
         Client client = this;
         Thread t = new Thread(() -> {
             try {
-				//System.out.println("client = " + client.toString());
-                objdist.connect(n, x, client);
+				System.out.println("in thread" );
+                objdist.connect(n, x, null);
+				System.out.println("after connect" );
             } catch (Exception e){
                 try {
+                    System.out.println(e.toString());
             		System.out.println("je close !"); 
 					
                     objdist.close(0);
@@ -59,16 +68,14 @@ public class Client implements Serializable {
     }
 
     public int getNumber(int id_client) throws InterruptedException{
-        ArrayList<Integer> list = this.nbs.get(id_client);
-        if (list == null){
-            nbs.put(id_client, new ArrayList<Integer>());
-            list = nbs.get(id_client);
-        }
+		ArrayList<Integer> list = null;
 
-        while(list.isEmpty()){
-                System.out.println("Waiting generation of the number...");
-                Thread.sleep(100);
-        }
+       	do{
+			if (list == null )
+				list = this.nbs.get(id_client);
+			System.out.println("Waiting generation of the number...");
+			Thread.sleep(100);
+        } while(list == null || list.isEmpty());
         int nb = list.get(0);
         list.remove(0);
         return nb;
@@ -78,8 +85,16 @@ public class Client implements Serializable {
         Client myClient = new Client();
         ClockDist objdist = null;
         int id = 0;
-		
+		ClientInt objserv = null;
+
         try {
+            System.out.println("Creation de l'objet.");
+            objserv=new Client();
+			myClient =(Client) objserv;
+            System.out.println("Enregistrement de l'objet.");
+            Naming.rebind("client",objserv);
+            System.out.println("serveur operationnel.");
+
             System.out.println("Searching for object.");
             String url = "rmi://" + args[0] + "/echoservice";
             objdist = (ClockDist) Naming.lookup(url);
@@ -89,13 +104,14 @@ public class Client implements Serializable {
             System.out.println("Launch the client"); 
 
 			myClient.connectNew(n, x, objdist);
-
+			Thread.sleep(5000);
 
             System.out.println("n = " + n + " : x = " + x); 
             for (int i= 0; i < n; i++){
                 System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(0)); 
             }
         } catch(Exception e) {
+			System.out.println(e);
             objdist.close(id);
         }
     }

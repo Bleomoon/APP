@@ -3,6 +3,7 @@ package src;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.rmi.Naming;
 
 public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 {
@@ -17,7 +18,6 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 
     public int connect(int n, int x, Client client) throws RemoteException, InterruptedException 
     {
-        System.out.println("coucou !");
         synchronized(this){
             if ( cptClient >= MAX_CLIENT)
             {
@@ -28,8 +28,19 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             cptClient ++;
             
         }
-        System.out.println("Client connected !");
-        
+        ClientInt objdist = null;
+        try {
+            System.out.println("Searching for object.");
+            String url = "rmi://localhost/client";
+            objdist = (ClientInt) Naming.lookup(url);
+            System.out.println("Client find !");
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
+
+
         int number;
         int id_client = (int) (Math.random() * ( 100000 - 0 ));
         System.out.println("Client is connected !\n With ID :" + id_client);
@@ -38,7 +49,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             for (int i = 0; i < n ; i++) {
                 Thread.sleep(x*1000);
                 number = (int) (Math.random() * ( 100000 - 0 ));
-                System.out.println("Generate " + number);
+                System.out.println("Generate " + number + " client  = " + client.toString());
                 client.add_new(number, 0);
             }
         }
