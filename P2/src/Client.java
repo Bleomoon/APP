@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Client {
 	private HashMap<Integer, ArrayList<Integer>> nbs;
 
-	public CLient()
+	public Client()
 	{
 		nbs = new HashMap<Integer, ArrayList<Integer>>();
 	}
@@ -33,13 +33,13 @@ public class Client {
 		}
 	}	
 
-	public int getNumber(int id_client){
+	public integer getNumber(int id_client){
 		ArrayList list = this.nbs.get(id_client);
 		while(list.isEmpty()){
-			System.out.printl("Waiting generation of the number...");
+			System.out.println("Waiting generation of the number...");
 			Thread.sleep(100);
 		}
-		int nb = list.get(0);
+		integer nb = list.get(0);
 		list.remove(0);
 		return nb;
 	}
