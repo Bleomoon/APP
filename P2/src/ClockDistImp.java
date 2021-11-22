@@ -45,12 +45,12 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         int id_client = (int) (Math.random() * ( 100000 - 0 ));
         System.out.println("Client is connected !\n With ID :" + id_client);
 
-        if (client != null) {
+        if (objdist != null) {
             for (int i = 0; i < n ; i++) {
                 Thread.sleep(x*1000);
                 number = (int) (Math.random() * ( 100000 - 0 ));
-                System.out.println("Generate " + number + " client  = " + client.toString());
-                client.add_new(number, 0);
+                System.out.println("Generate " + number + " client  = " + objdist.toString());
+                objdist.add_new(number, 0);
             }
         }
         return 0;
