@@ -38,7 +38,7 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         }
 
 		synchronized(this) {
-			System.out.println(generated + "add !");
+			System.out.println(generated + " added !");
 			current.add(generated);	
 		}
 		
@@ -104,7 +104,6 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             System.out.println("Launch the client"); 
 
 			myClient.connectNew(n, x, objdist);
-			Thread.sleep(5000);
 
             System.out.println("n = " + n + " : x = " + x); 
             for (int i= 0; i < n; i++){
