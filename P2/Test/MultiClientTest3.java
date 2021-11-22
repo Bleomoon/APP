@@ -13,36 +13,36 @@ import src.Client;
 public class MultiClientTest3 {
     public static void main(String[] args) throws RemoteException {
         ClockDist objdist = null;
-        
+
 		ClientInt objserv1 = null;
 		ClientInt objserv2 = null;
         ClientInt objserv3 = null;
 		ClientInt objserv4 = null;
 
         try {
-            System.out.println("Creation de l'objet.");
+            System.out.println("Creation de l'objet serveur 1.");
             objserv1 = new Client();
-            System.out.println("Enregistrement de l'objet.");
+            System.out.println("Enregistrement de l'objet serveur 1.");
             Naming.rebind("client",objserv1);
-            System.out.println("serveur operationnel.");
+            System.out.println("serveur 1 operationnel.");
             
-            System.out.println("Creation de l'objet.");
+            System.out.println("Creation de l'objet  serveur 2.");
             objserv2 = new Client();
-            System.out.println("Enregistrement de l'objet.");
+            System.out.println("Enregistrement de l'objet serveur 2.");
             Naming.rebind("client",objserv2);
-            System.out.println("serveur operationnel.");
+            System.out.println("serveur 2 operationnel.");
 
-            System.out.println("Creation de l'objet.");
-            objserv1 = new Client();
-            System.out.println("Enregistrement de l'objet.");
+            System.out.println("Creation de l'objet seveur 3.");
+            objserv3 = new Client();
+            System.out.println("Enregistrement de l'objet seveur 3.");
             Naming.rebind("client",objserv3);
-            System.out.println("serveur operationnel.");
+            System.out.println("serveur 3 operationnel.");
             
-            System.out.println("Creation de l'objet.");
-            objserv2 = new Client();
-            System.out.println("Enregistrement de l'objet.");
+            System.out.println("Creation de l'objet seveur 4.");
+            objserv4 = new Client();
+            System.out.println("Enregistrement de l'objet seveur 4.");
             Naming.rebind("client",objserv4);
-            System.out.println("serveur operationnel.");
+            System.out.println("serveur 4 operationnel.");
 
             System.out.println("Searching for object.");
             String url = "rmi://" + args[0] + "/echoservice";
