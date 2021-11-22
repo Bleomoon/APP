@@ -11,6 +11,8 @@ public class MultiClientTest {
         int id = 0;
 		ClientInt objserv = null;
 
+
+
         int current_id;
         try {
             System.out.println("Creation de l'objet.");

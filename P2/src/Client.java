@@ -62,14 +62,14 @@ public class Client extends UnicastRemoteObject implements ClientInt {
     }
 
     public int getNumber(int id_client) throws InterruptedException{
-		ArrayList<Integer> list = null;
+		ArrayList<Integer> list =  this.nbs.get(id_client);;
 
-       	do{
+       	while(list == null || list.isEmpty()){
 			if (list == null )
 				list = this.nbs.get(id_client);
 			System.out.println("Waiting for "+ id_client + " the generation of the number...");
 			Thread.sleep(100);
-        } while(list == null || list.isEmpty());
+        }
         int nb = list.get(0);
         list.remove(0);
         return nb;
@@ -85,11 +85,10 @@ public class Client extends UnicastRemoteObject implements ClientInt {
         try {
             System.out.println("Creation de l'objet.");
             objserv=new Client();
-			myClient =(Client) objserv;
+            myClient =(Client) objserv;
             System.out.println("Enregistrement de l'objet.");
             Naming.rebind("client",objserv);
             System.out.println("serveur operationnel.");
-
             System.out.println("Searching for object.");
             String url = "rmi://" + args[0] + "/echoservice";
             objdist = (ClockDist) Naming.lookup(url);
@@ -100,9 +99,18 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 			myClient.connectNew(n, x,  "localhost", objdist, current_id);
 
             System.out.println("n = " + n + " : x = " + x); 
-            for (int i= 0; i < n; i++){
+
+            int i, cpt = 0;
+            for (i = 0; i < 2000000; i ++){
+                System.out.println("");
+            }
+
+            for (i= 0; i < n; i++){
                 System.out.println("The generated number " + (i + 1) + " is " + myClient.getNumber(current_id)); 
             }
+
+
+            return ;
         } catch(Exception e) {
 			System.out.println(e);
             objdist.close();
