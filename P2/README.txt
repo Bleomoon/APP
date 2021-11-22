@@ -8,11 +8,11 @@ Classes :
 - Client : 
 	le client se connecte auprès du serveur et demande à recevoir un certain nombre de chiffres à intervalle régulier.
 	- constructeur du client se créer avec une HashMap ayant comme clé l'id de sa requête et une arraylist correspondant à tout les chiffres aléatoires envoyé par le serveur
-	- addNew
-	- connectNew
-	- printNumber
+	- addNew : ajoute un nombre dans la arrayList du client
+	- connectNew : lance le Thread qui gère la connection avec l'objet distant ClockDistIm
+	- printNumber : print tout les nombre des arrayList
 	- getNumber(int) : renvoie la première valeur de la ArrayList correspondant à la clé de l'id de la requête mis en paramètre.
-	- main
+	- main : lance une connexion au serveur et lance les threads pour permettre de continuer le traitement du client.
 - ClockDist :
 	- connect(int, int, Client) permet de se connecté au serveur en lui donnant, via les deux int, le x et le n correspondant à n le nombre de nombre que l'on souhaite et x le nombre de seconde entre chaque envoie de nombre aléatoire.
 		renvoie un int correspondant au numero de la requête
