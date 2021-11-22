@@ -17,9 +17,14 @@ test1:
 test2:
 	@echo launching MultiClientTest2, hostname = ${HOSTNAME}
 	java Test.MultiClientTest2 "${HOSTNAME}"
+
 test3:
 	@echo launching MultiClientTest3, hostname = ${HOSTNAME}
 	java Test.MultiClientTest3 "${HOSTNAME}"
+
+test4:
+	@echo launching MultiClientTest4, hostname = ${HOSTNAME}
+	java Test.MultiClientTest4 "${HOSTNAME}"
 
 server:
 	@echo launching server...

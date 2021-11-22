@@ -26,7 +26,8 @@ Classes :
 
 Test
 Des fichier de test sont dans le Dossier Test.
-3 tests sont effectué pour vérifié que les clients fonctionne bien en parallèle.
+4 tests sont effectué pour vérifié que les clients fonctionne bien en parallèle.
 le premier test crée plusieurs requête venant d'un même client 
 le deuxième test crée plusieurs clients faisant une requête avec des paramètres différents.
 le troisième test crée plusieurs clients faisant une requête avec les même paramètres.
+le quatrième test crée deux client faisant deux requête chacun 
