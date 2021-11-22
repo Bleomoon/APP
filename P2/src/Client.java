@@ -44,24 +44,11 @@ public class Client extends UnicastRemoteObject implements ClientInt {
 		
 	}	
     
-    public void connectNew(int n, int x, ClockDist objdist) throws InterruptedException, RemoteException
+    public void connectNew(int n, int x, String hostname) throws InterruptedException, RemoteException
     {
         Client client = this;
         Thread t = new Thread(() -> {
-            try {
-				System.out.println("in thread" );
-                objdist.connect(n, x, null);
-				System.out.println("after connect" );
-            } catch (Exception e){
-                try {
-                    System.out.println(e.toString());
-            		System.out.println("je close !"); 
-					
-                    objdist.close(0);
-                } catch (Exception ex) {
-                    System.out.println(ex.toString());
-                } 
-            }
+            objdist.generateNumber(n, x, hostname);
         });
 		t.start();
 		
@@ -100,10 +87,9 @@ public class Client extends UnicastRemoteObject implements ClientInt {
             objdist = (ClockDist) Naming.lookup(url);
             int n = Integer.parseInt(args[1]);
 			int x = Integer.parseInt(args[2]);
-            
-            System.out.println("Launch the client"); 
-
-			myClient.connectNew(n, x, objdist);
+        
+            objdist.connect();
+			myClient.connectNew(n, x,  "localhost", objdist);
 
             System.out.println("n = " + n + " : x = " + x); 
             for (int i= 0; i < n; i++){

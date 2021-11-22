@@ -16,7 +16,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         ClockDistImp.cptClient = 0;
     }
 
-    public int connect(int n, int x, Client client) throws RemoteException, InterruptedException 
+    public int connect(int n, int x, String hostname) throws RemoteException, InterruptedException 
     {
         synchronized(this){
             if ( cptClient >= MAX_CLIENT)
@@ -30,8 +30,9 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         }
         ClientInt objdist = null;
         try {
+            // connect to the opject
             System.out.println("Searching for object.");
-            String url = "rmi://localhost/client";
+            String url = "rmi://" + hostname + "/client";
             objdist = (ClientInt) Naming.lookup(url);
             System.out.println("Client find !");
             
