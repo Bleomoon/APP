@@ -28,3 +28,4 @@ server:
 clean:
 	@echo cleaning class files
 	rm -frv src/*.class
+	rm -frv Test/*.class

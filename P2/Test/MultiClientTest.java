@@ -5,15 +5,15 @@ import java.rmi.RemoteException;
 import src.*;
 import src.Client;
 
+
+/*
+** Création de un client qui fait plusieurs requete
+*/
 public class MultiClientTest {
     public static void main(String[] args) throws RemoteException {
         ClockDist objdist = null;
-        int id = 0;
 		ClientInt objserv = null;
 
-
-
-        int current_id;
         try {
             System.out.println("Creation de l'objet.");
             objserv=new Client();

@@ -7,10 +7,10 @@ import src.*;
 import src.Client;
 
 /*
-**Creation de 2 clients faisant une requete chacun
+**Creation de 2 clients faisant plusieur requete chacun
 */
 
-public class MultiClientTest2 {
+public class MultiClientTest4 {
     public static void main(String[] args) throws RemoteException {
         ClockDist objdist = null;
 
@@ -36,8 +36,13 @@ public class MultiClientTest2 {
 
             int id1 = objdist.connect();
             int id2 = objdist.connect();
+            int id3 = objdist.connect();
+            int id4 = objdist.connect();
+
             ((Client)objserv1).connectNew(50, 1, "localhost", objdist, id1);
+            ((Client)objserv1).connectNew(50, 1, "localhost", objdist, id3);
             ((Client)objserv2).connectNew(50, 3, "localhost", objdist, id2);
+            ((Client)objserv2).connectNew(50, 3, "localhost", objdist, id4);
         }
         catch ( Exception e) {
             System.out.println(e);
