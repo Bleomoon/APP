@@ -16,7 +16,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         ClockDistImp.cptClient = 0;
     }
 
-    public int connect(int n, int x, Client client) throws RemoteException, InterruptedException 
+    public int connect() throws RemoteException, InterruptedException 
     {
         synchronized(this){
             if ( cptClient >= MAX_CLIENT)
@@ -45,6 +45,34 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
         int id_client = (int) (Math.random() * ( 100000 - 0 ));
         System.out.println("Client is connected !\n With ID :" + id_client);
 
+        
+        return id_client;
+    }
+    
+    public Status close() throws RemoteException, InterruptedException
+    {
+        synchronized(this){
+            if (cptClient <= 0)
+                throw new NoClientException(); // if the compteur is null or less. i can't remove the compteur.
+            System.out.println("Client is disconnect !");
+			cptClient--;
+            return Status.success;
+        }
+    }
+    public void generateNumber(int x, int n, String hostname)throws RemoteException, InterruptedException {
+        ClientInt objdist = null;
+        try {
+            System.out.println("Searching for object.");
+            String url = "rmi://"+hostname+"/client";
+            objdist = (ClientInt) Naming.lookup(url);
+            System.out.println("Client find !");
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+        int number;
         if (objdist != null) {
             for (int i = 0; i < n ; i++) {
                 Thread.sleep(x*1000);
@@ -52,18 +80,6 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
                 System.out.println("Generate " + number + " client  = " + objdist.toString());
                 objdist.add_new(number, 0);
             }
-        }
-        return 0;
-    }
-    
-    public Status close(int id_client) throws RemoteException, InterruptedException
-    {
-        synchronized(this){
-            if (cptClient <= 0)
-                throw new NoClientException(); // if the compteur is null or less. i can't remove the compteur.
-            System.out.println("Client " + id_client + " is disconnect !");
-			cptClient--;
-            return Status.success;
         }
     }
 
