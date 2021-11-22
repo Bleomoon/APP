@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class ClockDistImp extends UnicastRemoteObject implements ClockDist
 {
     private static int cptClient;
-    public static final MAX_CLIENT = 3;
+    public static final int MAX_CLIENT = 3;
 
     public ClockDistImp() throws RemoteException
     {
@@ -28,7 +28,7 @@ public class ClockDistImp extends UnicastRemoteObject implements ClockDist
             int number = 0;
             System.out.println("Client " + id_client + " is connected !");
 
-            while (Boolean.true && client != null){
+            while (true && client != null){
                 thread.sleep(x*1000);
                 for (int i = 0; i < n ; i++) {
                     number = (int) (Math.random() * ( 100000 - 0 ));
